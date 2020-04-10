@@ -36,3 +36,4 @@ public class MyTestCase {
 		driver.close();
 	}
 }
+//*[@id="web-analytics-software-href-1"]

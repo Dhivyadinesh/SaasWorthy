@@ -24,5 +24,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/home/dinesh/Downloads/package/mysql-connector-java_8.0.19-1ubuntu16.04_all/usr/share/java/mysql-connector-java-8.0.19.jar"/>
+	<classpathentry kind="lib" path="/home/dinesh/Downloads/package/selenium-java-3.141.59.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -12,10 +12,11 @@ public class Checkthelink {
 		WebDriver driver = new FirefoxDriver();
 		driver.get("https://www.saasworthy.com/");
 		driver.manage().window().maximize();
-		List<WebElement> data = driver.findElements(By.className("item_blu_titl"));
+		List<WebElement> data = driver.findElements(By.xpath("/html/body/div[11]/div/div/div/div/div/div/div/div[2]/span[2]/center/a"));
 		for (WebElement dat : data) {
 			dat.click();
 			System.out.println(" title is" + dat.getText());
-		}	}
+		}	
+	}
 
 }
