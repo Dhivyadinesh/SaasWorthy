@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,7 +24,7 @@ import org.xml.sax.SAXException;
 
 public class ReadSaasProductListXmlFileAndUploadInDB {
 	public static void main(String[] args) throws SQLException, InterruptedException, ParserConfigurationException, SAXException, IOException {
-		String url = "jdbc:mysql://localhost:3306/datafromfile";
+		String url = "jdbc:mysql://localhost:3306/saas";
 		String username = "root";
 		String password = "dineshdd";
 		File xmlFile = new File("/home/dinesh/Downloads/product_sitemap_google.xml");
@@ -36,75 +37,65 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 			for (int i = 0; i < nodeList.getLength(); i++)  {
 				Node node = nodeList.item(i);  
 				Element eElement = (Element) node;  
-				String urlName = eElement.getElementsByTagName("loc").item(0).getTextContent();
+				String productUrl = eElement.getElementsByTagName("loc").item(0).getTextContent();
 
 				
-				System.setProperty("webdriver.gecko.driver", "/home/dinesh/Downloads/driver/geckodriver");
-				WebDriver driver = new FirefoxDriver();
-				driver.get(urlName);
-				System.out.println(urlName);
-				String title = driver.findElement(By.xpath("/html/body/div[11]/div/div[2]/div[2]/h1")).getText();
-				System.out.println(title);
+				System.setProperty("webdriver.chrome.driver", "/home/dinesh/Downloads/driver/chromedriver");
+				WebDriver driver = new ChromeDriver();
+				driver.get(productUrl);
+				String productTitle;
+				boolean productReview = false,productAwards = false,productScreenshot = false,productVendorscreenshot = false;
+				productTitle = driver.findElement(By.xpath("/html/body/div[11]/div/div[2]/div[2]/h1")).getText();
+				System.out.println("The product Title is "+productTitle);
+				System.out.println("The product Url is "+productUrl);
 				Connection conn = DriverManager.getConnection(url, username, password);
 				String sql;
-				sql = "INSERT INTO text(title,review,awards,screenshot,vendorscreenshot) VALUES (?,?,?,?,?) ";
+				sql = "INSERT INTO datafromxml (productTitle,productUrl,productReview,productAwards,productScreenshot,productVendorscreenshot) VALUES (?,?,?,?,?,?) ";
 				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setString(1, title);
+				statement.setString(1, productTitle);
+				statement.setString(2, productUrl);
+				
 
 				try {
-					boolean review = driver.findElement(By.xpath("/html/body/div[11]/div/div[2]/div[6]/div/p")).isDisplayed(); 
-					if(review == true ) {
-						System.out.println(1);
-						PreparedStatement statement1 = conn.prepareStatement(sql);
-						statement1.setBoolean(2,review );
-						statement1.executeUpdate();
-
-					}
+				productReview = driver.findElement(By.xpath("//div[@id='reviews']")).isDisplayed(); 
+						System.out.println("The product has review topic "+ productReview);
+					
 				}catch(Exception e) {
 					System.out.println(0);
 				}
 				
 				try {
-	                boolean awards = driver.findElement(By.xpath("/html/body/div[12]/div[2]/div/div")).isDisplayed();
-	                if(awards == true ) {
-						System.out.println(1);
-						PreparedStatement statement2 = conn.prepareStatement(sql);
-						statement2.setBoolean(3,awards );
-						statement2.executeUpdate();
-					}					
+	                 productAwards = driver.findElement(By.xpath("/html/body/div[12]/div[2]/div/div")).isDisplayed();
+						System.out.println("The product has awards topic "+ productAwards);
+								
 
 				}catch(Exception e) {
 					System.out.println(0);
 				}
 				
 				try {
-					boolean screenshot = driver.findElement(By.xpath("//div[@class='container_wrpr brd-bot slid-bx-height']")).isDisplayed();
-					if(screenshot == true ) {
-						System.out.println(1);
-						PreparedStatement statement3 = conn.prepareStatement(sql);
-						statement3.setBoolean(4,screenshot );
-						statement3.executeUpdate();
-					}				   
+					 productScreenshot = driver.findElement(By.xpath("//div[@class='container_wrpr brd-bot slid-bx-height']")).isDisplayed();
+						System.out.println("The product has Pricing Screenshot topic "+ productScreenshot);				   
 				
 				}catch(Exception e) {
 					System.out.println(0);
 				}
 				
 				try {
-					boolean vendorscreenshot = driver.findElement(By.xpath("//div[@id='pricing_screenshot']//img")).isDisplayed();
-					if(vendorscreenshot == true ) {
-						System.out.println(1);
-						PreparedStatement statement4 = conn.prepareStatement(sql);
-						statement4.setBoolean(5, vendorscreenshot);
-						statement4.executeUpdate();
-					}			
+					 productVendorscreenshot = driver.findElement(By.xpath("//div[@id='pricing_screenshot']//img")).isDisplayed();
+					 
+						System.out.println("The product has vendor pricing screenshot topic "+productVendorscreenshot);
+						
 
 				}catch(Exception e) {
 					System.out.println(0);
 				}		
+				statement.setBoolean(3, productReview);
+				statement.setBoolean(4, productAwards);
+				statement.setBoolean(5, productScreenshot);
+				statement.setBoolean(6, productVendorscreenshot);
 				statement.executeUpdate();
-		         conn.close();
-
+				driver.quit();
 
 			}
 			
