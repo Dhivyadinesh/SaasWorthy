@@ -37,6 +37,7 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 				Node node = nodeList.item(i);  
 				Element eElement = (Element) node;  
 				String urlName = eElement.getElementsByTagName("loc").item(0).getTextContent();
+
 				
 				System.setProperty("webdriver.gecko.driver", "/home/dinesh/Downloads/driver/geckodriver");
 				WebDriver driver = new FirefoxDriver();
@@ -45,16 +46,23 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 				String title = driver.findElement(By.xpath("/html/body/div[11]/div/div[2]/div[2]/h1")).getText();
 				System.out.println(title);
 				Connection conn = DriverManager.getConnection(url, username, password);
-				String sql = "INSERT INTO text(title) VALUES (?) ";
+				String sql;
+				sql = "INSERT INTO text(title) VALUES (?) ";
 				PreparedStatement statement = conn.prepareStatement(sql);
 				statement.setString(1, title);
+				statement.executeUpdate();
+
 
 				try {
 					boolean review = driver.findElement(By.xpath("/html/body/div[11]/div/div[2]/div[6]/div/p")).isDisplayed(); 
-					System.out.println(review );
-					String sql1 = "INSERT INTO text(review) VALUES (?) ";
-					PreparedStatement statement1 = conn.prepareStatement(sql1);
+					if(review = true ) {
+						System.out.println(1);
+					}
+					sql = "INSERT INTO text(review) VALUES (?) ";
+					PreparedStatement statement1 = conn.prepareStatement(sql);
 					statement1.setBoolean(1, review);
+					statement1.executeUpdate();
+
 
 				}catch(Exception e) {
 					System.out.println(0);
@@ -62,10 +70,13 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 				
 				try {
 	                boolean awards = driver.findElement(By.xpath("/html/body/div[12]/div[2]/div/div")).isDisplayed();
-					System.out.println(awards);
-					String sql2 = "INSERT INTO text(awards) VALUES (?) ";
-					PreparedStatement statement2 = conn.prepareStatement(sql2);
+	                if(awards = true ) {
+						System.out.println(1);
+					}					sql = "INSERT INTO text(awards) VALUES (?) ";
+					PreparedStatement statement2 = conn.prepareStatement(sql);
 					statement2.setBoolean(1, awards);
+					statement.executeUpdate();
+
 
 				}catch(Exception e) {
 					System.out.println(0);
@@ -73,10 +84,14 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 				
 				try {
 					boolean screenshot = driver.findElement(By.xpath("//div[@class='container_wrpr brd-bot slid-bx-height']")).isDisplayed();
-					System.out.println(screenshot);
-					String sql3 = "INSERT INTO text(screenshot) VALUES (?) ";
-					PreparedStatement statement3 = conn.prepareStatement(sql3);
+					if(screenshot = true ) {
+						System.out.println(1);
+					}				   
+					sql = "INSERT INTO text(screenshot) VALUES (?) ";
+					PreparedStatement statement3 = conn.prepareStatement(sql);
 					statement3.setBoolean(1, screenshot);
+					statement.executeUpdate();
+
 
 				}catch(Exception e) {
 					System.out.println(0);
@@ -84,15 +99,18 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 				
 				try {
 					boolean vendorscreenshot = driver.findElement(By.xpath("//div[@id='pricing_screenshot']//img")).isDisplayed();
-					System.out.println(vendorscreenshot);
-					String sql4 = "INSERT INTO text(vendorscreenshot) VALUES (?) ";
-					PreparedStatement statement4 = conn.prepareStatement(sql4);
+					if(vendorscreenshot = true ) {
+						System.out.println(1);
+					}					sql = "INSERT INTO text(vendorscreenshot) VALUES (?) ";
+					PreparedStatement statement4 = conn.prepareStatement(sql);
 					statement4.setBoolean(1, vendorscreenshot);
+					statement.executeUpdate();
+
 
 				}catch(Exception e) {
 					System.out.println(0);
 				}		
-	
+	conn.close();
 			}
 			
 		}catch(FileNotFoundException e){
