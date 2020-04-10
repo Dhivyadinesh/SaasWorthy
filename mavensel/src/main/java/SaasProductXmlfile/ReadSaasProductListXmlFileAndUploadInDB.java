@@ -47,36 +47,31 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 				System.out.println(title);
 				Connection conn = DriverManager.getConnection(url, username, password);
 				String sql;
-				sql = "INSERT INTO text(title) VALUES (?) ";
+				sql = "INSERT INTO text(title,review,awards,screenshot,vendorscreenshot) VALUES (?,?,?,?,?) ";
 				PreparedStatement statement = conn.prepareStatement(sql);
 				statement.setString(1, title);
-				statement.executeUpdate();
-
 
 				try {
 					boolean review = driver.findElement(By.xpath("/html/body/div[11]/div/div[2]/div[6]/div/p")).isDisplayed(); 
-					if(review = true ) {
+					if(review == true ) {
 						System.out.println(1);
+						PreparedStatement statement1 = conn.prepareStatement(sql);
+						statement1.setBoolean(2,review );
+						statement1.executeUpdate();
+
 					}
-					sql = "INSERT INTO text(review) VALUES (?) ";
-					PreparedStatement statement1 = conn.prepareStatement(sql);
-					statement1.setBoolean(1, review);
-					statement1.executeUpdate();
-
-
 				}catch(Exception e) {
 					System.out.println(0);
 				}
 				
 				try {
 	                boolean awards = driver.findElement(By.xpath("/html/body/div[12]/div[2]/div/div")).isDisplayed();
-	                if(awards = true ) {
+	                if(awards == true ) {
 						System.out.println(1);
-					}					sql = "INSERT INTO text(awards) VALUES (?) ";
-					PreparedStatement statement2 = conn.prepareStatement(sql);
-					statement2.setBoolean(1, awards);
-					statement.executeUpdate();
-
+						PreparedStatement statement2 = conn.prepareStatement(sql);
+						statement2.setBoolean(3,awards );
+						statement2.executeUpdate();
+					}					
 
 				}catch(Exception e) {
 					System.out.println(0);
@@ -84,33 +79,33 @@ public class ReadSaasProductListXmlFileAndUploadInDB {
 				
 				try {
 					boolean screenshot = driver.findElement(By.xpath("//div[@class='container_wrpr brd-bot slid-bx-height']")).isDisplayed();
-					if(screenshot = true ) {
+					if(screenshot == true ) {
 						System.out.println(1);
+						PreparedStatement statement3 = conn.prepareStatement(sql);
+						statement3.setBoolean(4,screenshot );
+						statement3.executeUpdate();
 					}				   
-					sql = "INSERT INTO text(screenshot) VALUES (?) ";
-					PreparedStatement statement3 = conn.prepareStatement(sql);
-					statement3.setBoolean(1, screenshot);
-					statement.executeUpdate();
-
-
+				
 				}catch(Exception e) {
 					System.out.println(0);
 				}
 				
 				try {
 					boolean vendorscreenshot = driver.findElement(By.xpath("//div[@id='pricing_screenshot']//img")).isDisplayed();
-					if(vendorscreenshot = true ) {
+					if(vendorscreenshot == true ) {
 						System.out.println(1);
-					}					sql = "INSERT INTO text(vendorscreenshot) VALUES (?) ";
-					PreparedStatement statement4 = conn.prepareStatement(sql);
-					statement4.setBoolean(1, vendorscreenshot);
-					statement.executeUpdate();
-
+						PreparedStatement statement4 = conn.prepareStatement(sql);
+						statement4.setBoolean(5, vendorscreenshot);
+						statement4.executeUpdate();
+					}			
 
 				}catch(Exception e) {
 					System.out.println(0);
 				}		
-	conn.close();
+				statement.executeUpdate();
+		         conn.close();
+
+
 			}
 			
 		}catch(FileNotFoundException e){
