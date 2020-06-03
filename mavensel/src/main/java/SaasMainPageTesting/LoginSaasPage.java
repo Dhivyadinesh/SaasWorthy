@@ -6,9 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class LoginSaasPage {
-	
-	@Test
-	public void login() { 
+	public static void main(String[] args) {
         try {
 		System.setProperty("webdriver.gecko.driver", "/home/dinesh/Downloads/driver/geckodriver");
 		WebDriver driver = new FirefoxDriver();
@@ -19,8 +17,11 @@ public class LoginSaasPage {
 		driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/input[1]")).sendKeys("yashwanth@saasworthy.com");							
         driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/input[2]")).sendKeys("9!Mobiles");							
         driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/button")).click();
+        driver.navigate().refresh();
         driver.findElement(By.partialLinkText("Smartsheet")).click();
         driver.findElement(By.xpath("/html[1]/body[1]/div[11]/div[1]/div[2]/div[2]/i[1]")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div[4]/div/span[4]")).click();
+        driver.findElement(By.partialLinkText("Shortlisted Softwares")).click();
         }catch(Exception e) {
         	System.out.println("Unable to Login");
         }
