@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
 
 public class RemoveBookMarkSaas {
 
@@ -21,7 +22,9 @@ public class RemoveBookMarkSaas {
         driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/input[1]")).sendKeys("yashwanth@saasworthy.com");							
         driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/input[2]")).sendKeys("9!Mobiles");							
         driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/button")).click();
-        driver.findElement(By.xpath("//div[@class='usr_wrap']"));
+        Actions action = new Actions(driver);
+        WebElement element = driver.findElement(By.xpath("//div[@class='usr_wrap']"));
+       action.click(element).build().perform();
         driver.findElement(By.partialLinkText("Shortlisted Softwares")).click();
     
 	}
