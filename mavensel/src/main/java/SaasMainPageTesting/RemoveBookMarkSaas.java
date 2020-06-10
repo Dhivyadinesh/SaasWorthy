@@ -23,8 +23,8 @@ public class RemoveBookMarkSaas {
         driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/input[2]")).sendKeys("9!Mobiles");							
         driver.findElement(By.xpath("/html/body/div[3]/div/div/div[4]/button")).click();
         Actions action = new Actions(driver);
-        WebElement element = driver.findElement(By.xpath("//div[@class='usr_wrap']"));
-       action.click(element).build().perform();
+        WebElement element = driver.findElement(By.xpath("//span[@class='usr_dp']"));
+       action.moveToElement(element).build().perform();
         driver.findElement(By.partialLinkText("Shortlisted Softwares")).click();
     
 	}
