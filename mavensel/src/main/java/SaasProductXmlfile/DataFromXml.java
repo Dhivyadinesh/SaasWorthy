@@ -32,7 +32,7 @@ public class DataFromXml {
 		boolean SWScore = false, Description = false, Awards = false, Features = false, TechnicalDetails = false,
 				Pricing = false, FAQ = false, RelatedCategories = false, Alternatives = false, Reviews = false,
 				Videos = false, Screenshots = false, Articles = false, Downloads = false, Customers = false,
-				Integrations = false, PricingScrenshort = false;
+				Integrations = false, PricingScreenshot = false;
 		boolean linkedin = false, twitter = false, facebook = false, instagram = false, youtube = false;
 		String linkedinCount = "0", twitterCount = "0", facebookCount = "0", instagramCount = "0", youtubeCount = "0";
 		String linkedinUrl = "null", twitterUrl = "null", facebookUrl = "null", instagramUrl = "null",
@@ -54,11 +54,14 @@ public class DataFromXml {
 				try {
 				org.jsoup.nodes.Document docm = Jsoup.connect(productUrl).get();
 				System.out.println(productUrl);
+				
 				description = docm.getElementById("sass-desc").text();
 				System.out.println(description);
+				
 				String[] wordList = description.split("\\s+");
 				countWorddescription = wordList.length;
 				System.out.println(countWorddescription);
+				
 				productName = docm.getElementsByClass("h-title").text();
 				System.out.println(productName);
 
@@ -114,11 +117,11 @@ public class DataFromXml {
 					System.out.println("The product has Pricing topic not found");
 				}
 				try {
-					PricingScrenshort = docm.getElementsByClass("slider pricing-slider slick-initialized slick-slider")
+					PricingScreenshot = docm.getElementsByClass("slider pricing-slider slick-initialized slick-slider")
 							.hasText();
-					System.out.println("The product has Pricing topic found ");
+					System.out.println("The product has PricingScrenshort topic found ");
 				} catch (Exception e) {
-					System.out.println("The product has Pricing topic not found");
+					System.out.println("The product has PricingScrenshort topic not found");
 				}
 
 				// checking FAQ is persent/not from productUrl
@@ -257,11 +260,11 @@ public class DataFromXml {
 				String sql;
 				// query for inserting data
 				sql = "INSERT INTO 50product (productName, productUrl,categoryName, SWScore , Description , Awards ,"
-						+ "Features, TechnicalDetails ,Pricing,PricingScrenshort, FAQ , RelatedCategories ,Alternatives ,"
+						+ "Features, TechnicalDetails ,Pricing, FAQ , RelatedCategories ,Alternatives ,"
 						+ "Reviews ,Videos, Screenshots ,Articles ,Downloads ,Customers ,"
 						+ "Integrations, linkedin, linkedinCount, linkedinUrl, twitter, twitterCount,"
 						+ "twitterUrl, facebook, facebookCount, facebookUrl, instagram, instagramCount,"
-						+ "instagramUrl, youtube, youtubeCount, youtubeUrl,countWorddescription)"
+						+ "instagramUrl, youtube, youtubeCount, youtubeUrl,countWorddescription,PricingScreenshot)"
 						+ " VALUES (?,?,?,?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?,?,?,?,?,"
 						+ "?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 				// Create a statement
@@ -275,33 +278,34 @@ public class DataFromXml {
 				statement.setBoolean(7, Features);
 				statement.setBoolean(8, TechnicalDetails);
 				statement.setBoolean(9, Pricing);
-				statement.setBoolean(10, PricingScrenshort);
-				statement.setBoolean(11, FAQ);
-				statement.setBoolean(12, RelatedCategories);
-				statement.setBoolean(13, Alternatives);
-				statement.setBoolean(14, Reviews);
-				statement.setBoolean(15, Videos);
-				statement.setBoolean(16, Screenshots);
-				statement.setBoolean(17, Articles);
-				statement.setBoolean(18, Downloads);
-				statement.setBoolean(19, Customers);
-				statement.setBoolean(20, Integrations);
-				statement.setBoolean(21, linkedin);
-				statement.setString(22, linkedinCount);
-				statement.setString(23, linkedinUrl);
-				statement.setBoolean(24, twitter);
-				statement.setString(25, twitterCount);
-				statement.setString(26, twitterUrl);
-				statement.setBoolean(27, facebook);
-				statement.setString(28, facebookCount);
-				statement.setString(29, facebookUrl);
-				statement.setBoolean(30, instagram);
-				statement.setString(31, instagramCount);
-				statement.setString(32, instagramUrl);
-				statement.setBoolean(33, youtube);
-				statement.setString(34, youtubeCount);
-				statement.setString(35, youtubeUrl);
-				statement.setInt(36, countWorddescription);
+				statement.setBoolean(10, FAQ);
+				statement.setBoolean(11, RelatedCategories);
+				statement.setBoolean(12, Alternatives);
+				statement.setBoolean(13, Reviews);
+				statement.setBoolean(14, Videos);
+				statement.setBoolean(15, Screenshots);
+				statement.setBoolean(16, Articles);
+				statement.setBoolean(17, Downloads);
+				statement.setBoolean(18, Customers);
+				statement.setBoolean(19, Integrations);
+				statement.setBoolean(20, linkedin);
+				statement.setString(21, linkedinCount);
+				statement.setString(22, linkedinUrl);
+				statement.setBoolean(23, twitter);
+				statement.setString(24, twitterCount);
+				statement.setString(25, twitterUrl);
+				statement.setBoolean(26, facebook);
+				statement.setString(27, facebookCount);
+				statement.setString(28, facebookUrl);
+				statement.setBoolean(29, instagram);
+				statement.setString(30, instagramCount);
+				statement.setString(31, instagramUrl);
+				statement.setBoolean(32, youtube);
+				statement.setString(33, youtubeCount);
+				statement.setString(34, youtubeUrl);
+				statement.setInt(35, countWorddescription);
+				statement.setBoolean(36, PricingScreenshot);
+
 				// execute statement
 				statement.executeUpdate();
 				conn.close();
